@@ -13,6 +13,7 @@ All credit for the original content goes to:
 I am responsible for the content that I will be adding. Note that:
 - There may be deletions of sections or content to reduce JSON size based on my personal preferences.
 - Any changes are made purely based on my own opinion.
+- The changes made will be cataloged in this [file](https://github.com/DelicateIntegral/ltworm/blob/delicate/changelog.md) 
 
 ## Notifications
 You have been notified that the deletions or modifications are subjective and based solely on my preferences.

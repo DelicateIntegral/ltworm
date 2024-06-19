@@ -1,7 +1,0 @@
-.vscode
-*.bak
-.idea/
-__pycache__/
-tmp/
-*.mr.json
-cyoacc

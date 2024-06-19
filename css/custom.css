@@ -77,3 +77,7 @@ span.fullHeight span.row.pa-0>div.row>div.col.pa-0>img {
 div.v-dialog span.fullHeight span.row.pa-0 span>img+span {
     max-height: none;
 }
+
+/* img {
+    display: none;
+/* }

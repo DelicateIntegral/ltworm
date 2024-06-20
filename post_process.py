@@ -1,5 +1,6 @@
 import os
 import json
+import copy
 
 # Function to read JSON data from a file
 def read_json(file_path):
@@ -114,9 +115,9 @@ def main():
 
     # Read the project JSON data
     data = read_json(project_path)
-    data = change_urls(data, old_prefix, new_prefix)  # Change URLs in the data
+    data = change_urls(data, old_prefix, new_prefix)
 
-    # Remove existing json files
+    # Remove existing JSON files
     for filename in os.listdir(directory_path):
         if filename in [dark, light, dark_noimg, light_noimg]:
             os.remove(os.path.join(directory_path, filename))
@@ -125,16 +126,16 @@ def main():
     write_json(os.path.join(directory_path, dark), data, minify)
 
     # Invert styles for the light theme and write the JSON file
-    inverted_data = invert_style_recursive(data)
+    inverted_data = invert_style_recursive(copy.deepcopy(data))
     write_json(os.path.join(directory_path, light), inverted_data, minify)
     
     # Disable images for the dark theme and write the JSON file
-    data = disable_images(data)
-    write_json(os.path.join(directory_path, dark_noimg), data, minify)
+    data_noimg = disable_images(copy.deepcopy(data))
+    write_json(os.path.join(directory_path, dark_noimg), data_noimg, minify)
     
     # Disable images for the light theme and write the JSON file
-    inverted_data = disable_images(data)
-    write_json(os.path.join(directory_path, light_noimg), inverted_data, minify)
+    inverted_data_noimg = disable_images(copy.deepcopy(inverted_data))
+    write_json(os.path.join(directory_path, light_noimg), inverted_data_noimg, minify)
 
 # Entry point of the script
 if __name__ == "__main__":

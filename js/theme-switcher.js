@@ -65,7 +65,9 @@ function setProjectFile(themeName) {
 
     if (themeName === 'light.json') {
         projectFile = imageEnabled ? 'light.json' : 'light_noimg.json';
-    } else if (themeName === 'dark.json') {
+    }
+    
+    if (themeName === 'dark.json') {
         projectFile = imageEnabled ? 'dark.json' : 'dark_noimg.json';
     }
 

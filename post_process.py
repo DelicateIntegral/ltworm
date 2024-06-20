@@ -15,6 +15,35 @@ def write_json(file_path, json_data, minify):
         separators = (',', ':') if minify else None  # Use compact separators if minifying
         json.dump(json_data, f, indent=indent, separators=separators)  # Write JSON data to the file
 
+# Function to shorten the beforeText of pointTypes
+def shorten_before_text(json_data):
+    # Helper function to traverse and modify the data
+    def traverse_and_modify(data):
+        if isinstance(data, dict):
+            for key, value in data.items():
+                # Check if key is "pointTypes" and the value is a list
+                if key == "pointTypes" and isinstance(value, list):
+                    for point_type in value:
+                        if "beforeText" in point_type and isinstance(point_type["beforeText"], str):
+                            # Shorten beforeText by taking the first letter of each word
+                            short_form = ''.join([word[0] for word in point_type["beforeText"].split() if word])
+                            point_type["beforeText"] = short_form + ": "
+                        if "afterText" in point_type and isinstance(point_type["afterText"], str):
+                            point_type["afterText"] = ""
+                        
+                else:
+                    # Recursively traverse nested data
+                    traverse_and_modify(value)
+        elif isinstance(data, list):
+            for item in data:
+                # Recursively traverse nested data
+                traverse_and_modify(item)
+
+    # Start the traversal from the root of json_data
+    traverse_and_modify(json_data)
+    return json_data
+
+
 # Function to change URLs in JSON data
 def change_urls(json_data, old_prefix, new_prefix):
     # Helper function to traverse and modify data
@@ -116,6 +145,7 @@ def main():
     # Read the project JSON data
     data = read_json(project_path)
     data = change_urls(data, old_prefix, new_prefix)
+    data = shorten_before_text(data)
 
     # Remove existing JSON files
     for filename in os.listdir(directory_path):

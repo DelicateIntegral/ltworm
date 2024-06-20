@@ -55,21 +55,18 @@ button.addEventListener('click', () => {
 });
 
 // Function to set the project file and highlight the selected option
-function setProjectFile(fileName) {
+function setProjectFile(themeName) {
     const imageEnabled = imageOption.classList.contains('bg-dark');
-    
-    if (fileName === 'light.json') {
-        if (imageEnabled) {
-            projectFile = 'light.json';
-        } else {
-            projectFile = 'light_noimg.json';
-        }
-    } else if (fileName === 'dark.json') {
-        if (imageEnabled) {
-            projectFile = 'dark.json';
-        } else {
-            projectFile = 'dark_noimg.json';
-        }
+
+    if (themeName === 'auto') {
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        themeName = prefersDarkScheme.matches ? 'dark.json' : 'light.json';
+    }
+
+    if (themeName === 'light.json') {
+        projectFile = imageEnabled ? 'light.json' : 'light_noimg.json';
+    } else if (themeName === 'dark.json') {
+        projectFile = imageEnabled ? 'dark.json' : 'dark_noimg.json';
     }
 
     document.cookie = `theme=${projectFile};path=/`;
@@ -89,8 +86,8 @@ function getCookie(name) {
 // Function to apply system appearance preference
 function applySystemPreference() {
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    projectFile = prefersDarkScheme.matches ? 'dark.json' : 'light.json';
-    setProjectFile(projectFile);
+    const theme = prefersDarkScheme.matches ? 'dark.json' : 'light.json';
+    setProjectFile(theme);
 }
 
 // Function to highlight the selected option
@@ -124,7 +121,7 @@ function updateButtonAppearance() {
 
 // Event listeners for theme options
 autoOption.addEventListener('click', () => {
-    applySystemPreference();
+    setProjectFile('auto');
 });
 
 lightOption.addEventListener('click', () => {
@@ -139,20 +136,22 @@ darkOption.addEventListener('click', () => {
 imageOption.addEventListener('click', () => {
     imageOption.classList.add('bg-dark', 'text-white');
     noImageOption.classList.remove('bg-dark', 'text-white');
-    setProjectFile(projectFile); // Update projectFile based on current theme and image setting
+    // Call setProjectFile with the current project file's base theme
+    setProjectFile(projectFile.includes('dark') ? 'dark.json' : 'light.json');
 });
 
 noImageOption.addEventListener('click', () => {
     noImageOption.classList.add('bg-dark', 'text-white');
     imageOption.classList.remove('bg-dark', 'text-white');
-    setProjectFile(projectFile); // Update projectFile based on current theme and image setting
+    // Call setProjectFile with the current project file's base theme
+    setProjectFile(projectFile.includes('dark') ? 'dark.json' : 'light.json');
 });
 
 // Apply cookie preference or system preference on load
 const themeCookie = getCookie('theme');
 if (themeCookie) {
     projectFile = themeCookie;
-    // Set image option based on cookie, assuming 'true' for image by default
+    // Set image option based on cookie
     if (projectFile.includes('_noimg')) {
         noImageOption.classList.add('bg-dark', 'text-white');
         imageOption.classList.remove('bg-dark', 'text-white');

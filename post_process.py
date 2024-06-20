@@ -109,7 +109,8 @@ def main():
     light_noimg = "light_noimg.json"
     project_path = os.path.join(directory_path, project_file)
     old_prefix = "https://cyoa.ltouroumov.ch/"
-    new_prefix = "https://github.com/DelicateIntegral/ltworm/tree/delicate"
+    # new_prefix = "https://raw.githubusercontent.com/DelicateIntegral/ltworm/delicate/"
+    new_prefix = ""
 
     # Read the project JSON data
     data = read_json(project_path)

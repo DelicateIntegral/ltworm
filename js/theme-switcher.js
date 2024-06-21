@@ -9,10 +9,9 @@ themeSwitcherDiv.classList.add('position-fixed', 'top-0', 'start-0', 'm-0');
 themeSwitcherDiv.style.zIndex = 10000;
 
 const button = document.createElement('button');
-button.innerHTML = '⚙️';
+button.innerHTML = `<i class="fa-solid fa-gear"></i>`;
 button.classList.add('btn', 'btn-light', 'half-pill');
 button.style.borderRadius = '0 20px 20px 0';
-button.style.borderColor = '#e5e5e5'
 button.style.position = 'absolute';
 button.style.left = '0';
 button.style.top = '10px';
@@ -21,7 +20,6 @@ button.style.padding = '5px 20px 5px 20px'; // Adjust padding for proper icon co
 button.style.display = 'flex';
 button.style.alignItems = 'center';
 button.style.justifyContent = 'center';
-button.style.backgroundColor = '#e5e5e5';
 
 const sidebar = document.createElement('div');
 sidebar.classList.add('bg-white', 'shadow', 'p-3', 'position-fixed', 'top-0', 'start-0', 'h-100', 'd-none');
@@ -115,6 +113,7 @@ function setProjectFile(themeName) {
 
     document.cookie = `theme=${projectFile};path=/`;
     highlightSelectedOption();
+    updateButtonAppearance();
     location.reload(); // Reload content
 }
 
@@ -131,6 +130,16 @@ function applySystemPreference() {
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
     const theme = prefersDarkScheme.matches ? 'dark.json' : 'light.json';
     setProjectFile(theme);
+}
+
+// Function to update the button appearance based on the selected theme
+function updateButtonAppearance() {
+    button.classList.remove('btn-light', 'btn-dark');
+    if (projectFile === 'light.json' || projectFile === 'light_noimg.json') {
+        button.classList.add('btn-dark');
+    } else if (projectFile === 'dark.json' || projectFile === 'dark_noimg.json') {
+        button.classList.add('btn-light');
+    }
 }
 
 // Function to highlight the selected option
@@ -191,3 +200,4 @@ if (themeCookie) {
     applySystemPreference();
 }
 highlightSelectedOption();
+updateButtonAppearance();

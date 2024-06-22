@@ -16,7 +16,7 @@ button.style.position = 'absolute';
 button.style.left = '0';
 button.style.top = '10px';
 button.style.zIndex = 10001;
-button.style.padding = '5px 20px 5px 20px'; // Adjust padding for proper icon coverage
+button.style.padding = '5px 20px';
 button.style.display = 'flex';
 button.style.alignItems = 'center';
 button.style.justifyContent = 'center';
@@ -24,8 +24,9 @@ button.style.justifyContent = 'center';
 const sidebar = document.createElement('div');
 sidebar.classList.add('bg-white', 'shadow', 'p-3', 'position-fixed', 'top-0', 'start-0', 'h-100', 'd-none');
 sidebar.style.width = '100%';
-sidebar.style.maxWidth = '300px';
+sidebar.style.maxWidth = '200px';
 sidebar.style.zIndex = 9999;
+sidebar.style.boxShadow = '4px 0 8px rgba(0, 0, 0, 0.5)';
 
 // Create a back button for the sidebar
 const backButton = document.createElement('button');
@@ -147,7 +148,7 @@ function highlightSelectedOption() {
     autoOption.classList.remove('bg-dark', 'text-white');
     lightOption.classList.remove('bg-dark', 'text-white');
     darkOption.classList.remove('bg-dark', 'text-white');
-    
+
     if (projectFile === 'light.json' || projectFile === 'light_noimg.json') {
         lightOption.classList.add('bg-dark', 'text-white');
     } else if (projectFile === 'dark.json' || projectFile === 'dark_noimg.json') {
@@ -201,3 +202,13 @@ if (themeCookie) {
 }
 highlightSelectedOption();
 updateButtonAppearance();
+
+// Event listener to close the sidebar when clicking outside of it
+document.addEventListener('click', (event) => {
+    const isClickInsideSidebar = sidebar.contains(event.target);
+    const isClickInsideButton = button.contains(event.target);
+    if (!isClickInsideSidebar && !isClickInsideButton && !sidebar.classList.contains('d-none')) {
+        sidebar.classList.add('d-none');
+        button.classList.remove('d-none');
+    }
+});

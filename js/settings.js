@@ -410,7 +410,7 @@ let projectFile = "dark.json";
   // Create section for Build Options
   const buildSection = document.createElement("div");
   const buildTitle = document.createElement("h5");
-  buildTitle.innerText = "Build Options";
+  buildTitle.innerText = "Build Options (does not work, in development)";
   buildSection.appendChild(buildTitle);
 
   const inputButtonContainer = document.createElement("div");

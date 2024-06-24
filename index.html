@@ -2,32 +2,42 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>CYOA</title>
-    <link rel="icon" href="/favicon.ico">
+    <title>DelicateIntegral's Worm Mod</title>
+    <meta name="description" content="Mod of Lt. Ouroumov's Worm CYOA by DelicateIntegral">
+    <meta name="author" content="DelicateIntegral">
+    <meta name="keywords" content="CYOA, Interactive CYOA, DelicateIntegral, Worm, light theme worm cyoa">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
-    <link rel="preload" href="css/app.df7ca14c.css" as="style">
-    <link rel="preload" href="css/chunk-vendors.58637379.css" as="style">
-    <link rel="preload" href="js/settings.js" as="script">
-    <link rel="preload" href="js/app.c533aa25.js" as="script">
-    <link rel="preload" href="js/chunk-vendors.59af3576.js" as="script">
-    <link rel="stylesheet" href="css/chunk-vendors.58637379.css">
-    <link rel="stylesheet" href="css/app.df7ca14c.css">
-    <link rel="stylesheet" href="css/custom.css">
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css" />
+    <link rel="preload" href="css/app.df7ca14c.css" as="style" />
+    <link rel="preload" href="css/chunk-vendors.58637379.css" as="style" />
+    <link rel="preload" href="js/settings.js" as="script" />
+    <link rel="preload" href="js/app.c533aa25.js" as="script" />
+    <link rel="preload" href="js/chunk-vendors.59af3576.js" as="script" />
+    <link rel="stylesheet" href="css/chunk-vendors.58637379.css" />
+    <link rel="stylesheet" href="css/app.df7ca14c.css" />
+    <link rel="stylesheet" href="css/custom.css" />
 </head>
 
 <body>
     <noscript>
-        <strong>We're sorry but the CYOA doesn't work properly without JavaScript enabled. Please enable it to
-            continue.</strong>
+        <strong>We're sorry but the CYOA doesn't work properly without JavaScript
+            enabled. Please enable it to continue.
+        </strong>
     </noscript>
+    <!-- Loading Indicator -->
+    <div id="indicator">
+        <!-- Indicator content goes here -->
+        Loading...
+    </div>
 
     <!-- Settings -->
     <div id="settings">

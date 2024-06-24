@@ -1,25 +1,73 @@
 // // Default project file
-let projectFile = "light.json";
+let projectFile = "dark.json";
 
 (function () {
+  // variables
+  let savedBuilds = [];
+  let dark = "dark.json";
+  let light = "light.json";
+  let dark_noimg = "dark_noimg.json";
+  let light_noimg = "light_noimg.json";
+
+  // Function for loading indicator
+  function loadIndicator() {
+    const indicator = document.getElementById("indicator");
+    const app = document.getElementById("app");
+    indicator.style.display = "block";
+
+    let _XHR = XMLHttpRequest;
+    XMLHttpRequest = class XHR extends _XHR {
+      constructor() {
+        super();
+
+        let _open = this.open;
+        this.open = (...args) => {
+          if (
+            `${args[0]}`.toUpperCase() === "GET" &&
+            `${args[1]}`.match(
+              /^(project|dark|light|dark_noimg|light_noimg)\.json$/
+            )
+          ) {
+            this.addEventListener("progress", (e) => {
+              const percentComplete = !e.total
+                ? `${((100 * e.loaded) / 100000000).toFixed(1)}%`
+                : `${((100 * e.loaded) / e.total).toFixed(1)}%`;
+              indicator.innerHTML = `<p>Loading ${percentComplete}</p>`;
+              app.style.display = "none";
+            });
+            this.addEventListener("loadend", () => {
+              indicator.innerHTML = "Loading 100.0%";
+              setTimeout(() => {
+                indicator.style.display = "none";
+                app.style.display = "block";
+              }, 100);
+            });
+          }
+          return _open.apply(this, args);
+        };
+      }
+    };
+  }
+
   // Function to set the project file and highlight the selected option
   function setProjectFile(themeName) {
+    loadIndicator();
+
     const imageEnabled = imageOption.classList.contains("bg-dark");
 
     if (themeName === "auto") {
       const prefersDarkScheme = window.matchMedia(
         "(prefers-color-scheme: dark)"
       );
-      themeName = prefersDarkScheme.matches ? "dark.json" : "light.json";
+      themeName = prefersDarkScheme.matches ? dark : light;
     }
 
-    if (themeName === "light.json" || themeName === "light_noimg.json") {
-      projectFile = imageEnabled ? "light.json" : "light_noimg.json";
-    } else if (themeName === "dark.json" || themeName === "dark_noimg.json") {
-      projectFile = imageEnabled ? "dark.json" : "dark_noimg.json";
+    if (themeName === light || themeName === light_noimg) {
+      projectFile = imageEnabled ? light : light_noimg;
+    } else if (themeName === dark || themeName === dark_noimg) {
+      projectFile = imageEnabled ? dark : dark_noimg;
     }
 
-    // document.cookie = `theme=${projectFile};path=/`;
     setCookie("theme", projectFile, 30);
     highlightSelectedOption();
     updateButtonAppearance();
@@ -49,19 +97,16 @@ let projectFile = "light.json";
   // Function to apply system appearance preference
   function applySystemPreference() {
     const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-    const theme = prefersDarkScheme.matches ? "dark.json" : "light.json";
+    const theme = prefersDarkScheme.matches ? dark : light;
     setProjectFile(theme);
   }
 
   // Function to update the button appearance based on the selected theme
   function updateButtonAppearance() {
     button.classList.remove("btn-light", "btn-dark");
-    if (projectFile === "light.json" || projectFile === "light_noimg.json") {
+    if (projectFile === light || projectFile === light_noimg) {
       button.classList.add("btn-dark");
-    } else if (
-      projectFile === "dark.json" ||
-      projectFile === "dark_noimg.json"
-    ) {
+    } else if (projectFile === dark || projectFile === dark_noimg) {
       button.classList.add("btn-light");
     }
   }
@@ -72,12 +117,9 @@ let projectFile = "light.json";
     lightOption.classList.remove("bg-dark", "text-white");
     darkOption.classList.remove("bg-dark", "text-white");
 
-    if (projectFile === "light.json" || projectFile === "light_noimg.json") {
+    if (projectFile === light || projectFile === light_noimg) {
       lightOption.classList.add("bg-dark", "text-white");
-    } else if (
-      projectFile === "dark.json" ||
-      projectFile === "dark_noimg.json"
-    ) {
+    } else if (projectFile === dark || projectFile === dark_noimg) {
       darkOption.classList.add("bg-dark", "text-white");
     } else {
       autoOption.classList.add("bg-dark", "text-white");
@@ -133,7 +175,7 @@ let projectFile = "light.json";
   }
 
   function saveBuildToLocalStorage(buildName) {
-    const activated = app.__vue__.$store.state.app.activated;
+    const activated = document.getElementById("");
     storeList(buildName, activated);
   }
 
@@ -280,8 +322,7 @@ let projectFile = "light.json";
 
   // Create a back button to close the sidebar
   const backButton = document.createElement("button");
-  backButton.innerHTML =
-    '<span class="material-symbols-outlined">keyboard_backspace</span>';
+  backButton.innerHTML = `<span class="material-symbols-outlined">keyboard_backspace</span>`;
   backButton.classList.add("btn", "btn-dark", "mb-3");
   backButton.style.display = "flex";
   backButton.style.alignItems = "center";
@@ -322,11 +363,11 @@ let projectFile = "light.json";
   });
 
   lightOption.addEventListener("click", () => {
-    setProjectFile("light.json");
+    setProjectFile(light);
   });
 
   darkOption.addEventListener("click", () => {
-    setProjectFile("dark.json");
+    setProjectFile(dark);
   });
 
   // Create section for image options
@@ -357,15 +398,13 @@ let projectFile = "light.json";
   imageOption.addEventListener("click", () => {
     imageOption.classList.add("bg-dark", "text-white");
     noImageOption.classList.remove("bg-dark", "text-white");
-    setProjectFile(projectFile.includes("dark") ? "dark.json" : "light.json");
+    setProjectFile(projectFile.includes("dark") ? dark : light);
   });
 
   noImageOption.addEventListener("click", () => {
     noImageOption.classList.add("bg-dark", "text-white");
     imageOption.classList.remove("bg-dark", "text-white");
-    setProjectFile(
-      projectFile.includes("dark") ? "dark_noimg.json" : "light_noimg.json"
-    );
+    setProjectFile(projectFile.includes("dark") ? dark_noimg : light_noimg);
   });
 
   // Create section for Build Options
@@ -407,8 +446,6 @@ let projectFile = "light.json";
   savedBuildsTitle.innerText = "Saved Builds";
   const savedBuildsList = document.createElement("ol");
 
-  let savedBuilds = [];
-
   buildSection.appendChild(inputButtonContainer);
   buildSection.appendChild(savedBuildsTitle);
   buildSection.appendChild(savedBuildsList);
@@ -425,18 +462,4 @@ let projectFile = "light.json";
   setTheme();
   highlightSelectedOption();
   updateButtonAppearance();
-
-  // Event listener to close the sidebar when clicking outside of it
-  document.addEventListener("click", (event) => {
-    const isClickInsideSidebar = sidebar.contains(event.target);
-    const isClickInsideButton = button.contains(event.target);
-    if (
-      !isClickInsideSidebar &&
-      !isClickInsideButton &&
-      !sidebar.classList.contains("d-none")
-    ) {
-      sidebar.classList.add("d-none");
-      button.classList.remove("d-none");
-    }
-  });
 })();

@@ -25,14 +25,14 @@ let projectFile = "dark.json";
           if (
             `${args[0]}`.toUpperCase() === "GET" &&
             `${args[1]}`.match(
-              /^(project|dark|light|dark_noimg|light_noimg)\.json$/
+              /^(dark|light|dark_noimg|light_noimg)\.json$/
             )
           ) {
             this.addEventListener("progress", (e) => {
               const percentComplete = !e.total
                 ? `${((100 * e.loaded) / 100000000).toFixed(1)}%`
                 : `${((100 * e.loaded) / e.total).toFixed(1)}%`;
-              indicator.innerHTML = `<p>Loading ${percentComplete}</p>`;
+              indicator.innerHTML = `Loading ${percentComplete}`;
               app.style.display = "none";
             });
             this.addEventListener("loadend", () => {
@@ -48,7 +48,7 @@ let projectFile = "dark.json";
       }
     };
   }
-
+  loadIndicator();
   // Function to set the project file and highlight the selected option
   function setProjectFile(themeName) {
     loadIndicator();

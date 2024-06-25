@@ -1,4 +1,4 @@
-// // Default project file
+// Default project file
 let projectFile = "dark.json";
 
 (function () {
@@ -24,9 +24,7 @@ let projectFile = "dark.json";
         this.open = (...args) => {
           if (
             `${args[0]}`.toUpperCase() === "GET" &&
-            `${args[1]}`.match(
-              /^(dark|light|dark_noimg|light_noimg)\.json$/
-            )
+            `${args[1]}`.match(/^(dark|light|dark_noimg|light_noimg)\.json$/)
           ) {
             this.addEventListener("progress", (e) => {
               const percentComplete = !e.total
@@ -49,6 +47,7 @@ let projectFile = "dark.json";
     };
   }
   loadIndicator();
+
   // Function to set the project file and highlight the selected option
   function setProjectFile(themeName) {
     loadIndicator();
